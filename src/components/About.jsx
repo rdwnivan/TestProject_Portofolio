@@ -1,25 +1,25 @@
 import { motion, useReducedMotion } from "motion/react";
-import { Buildings, Coffee, TestTube, ArrowRight } from "@phosphor-icons/react";
+import { Buildings, Coffee, TestTube, Bug } from "@phosphor-icons/react";
 import { personalInfo } from "../lib/data";
 
 export default function About() {
   const reduce = useReducedMotion();
   const stats = [
     { icon: Buildings, label: "Companies", value: "3" },
-    { icon: Coffee, label: "Cups of Coffee", value: "1000+" },
-    { icon: TestTube, label: "Test Cases", value: "500+" },
-    { icon: ArrowRight, label: "Bugs Found", value: "200+" },
+    { icon: Coffee, label: "Cups of Coffee", value: "1,247" },
+    { icon: TestTube, label: "Test Cases", value: "680+" },
+    { icon: Bug, label: "Bugs Found", value: "230+" },
   ];
 
   return (
     <section id="about" className="relative">
       <div className="section-rule" />
-      <div className="py-44 md:py-56 bg-surface-alt transition-colors relative overflow-hidden">
+      <div className="pt-12 pb-48 md:pt-16 md:pb-60 bg-surface-alt transition-colors relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary-400/5 rounded-full blur-[150px] opacity-50" />
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-accent/5 rounded-full blur-[120px] opacity-50" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-500/5 rounded-full blur-[120px] opacity-50" />
 
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 relative z-10">
-          <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 mt-12 md:mt-16 relative z-10">
+          <div className="grid lg:grid-cols-5 gap-14 lg:gap-20 items-start">
             <motion.div
               initial={reduce ? false : { opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -31,15 +31,15 @@ export default function About() {
                 initial={reduce ? false : { opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                className="inline-block font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-4"
+                className="inline-block font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-6"
               >
                 About Me
               </motion.span>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-8">
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-10 text-balance">
                 Turning quality into
                 <span className="text-gradient"> measurable impact</span>
               </h2>
-              <div className="space-y-5">
+              <div className="space-y-6">
                 <p className="text-lg leading-relaxed text-ink/90">
                   {personalInfo.about}
                 </p>
@@ -58,7 +58,7 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="lg:col-span-2"
             >
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-5">
                 {stats.map((stat, index) => (
                   <motion.div
                     key={stat.label}

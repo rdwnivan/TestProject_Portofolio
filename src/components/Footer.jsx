@@ -22,7 +22,7 @@ export default function Footer() {
           <div className="grid md:grid-cols-3 gap-8 items-start mb-10">
             <div>
               <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-400/15 to-accent/10 border border-primary-400/15 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-400/15 to-primary-500/10 border border-primary-400/15 flex items-center justify-center">
                   <span className="font-display text-[10px] font-bold text-primary-400">
                     RS
                   </span>
@@ -109,7 +109,7 @@ export default function Footer() {
               viewport={{ once: true }}
               className="font-mono text-xs text-ink-subtle flex items-center gap-1.5"
             >
-              Built with <Heart size={11} className="text-primary-400" weight="fill" /> React & Tailwind CSS
+              Built with <Heart size={11} className="text-primary-400" weight="fill" /> React, Tailwind CSS & Vite
             </motion.p>
           </div>
         </div>

@@ -8,26 +8,26 @@ export default function Experience() {
   return (
     <section id="experience" className="relative">
       <div className="section-rule" />
-      <div className="py-44 md:py-56 bg-surface transition-colors relative overflow-hidden">
+      <div className="pt-12 pb-48 md:pt-16 md:pb-60 bg-surface transition-colors relative overflow-hidden">
         <div className="absolute top-0 left-0 w-96 h-96 bg-primary-400/5 rounded-full blur-[150px] opacity-40" />
 
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 relative z-10">
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 mt-12 md:mt-16 relative z-10">
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-14"
+            className="mb-20"
           >
             <motion.span
               initial={reduce ? false : { opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="inline-block font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-4"
+              className="inline-block font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-6"
             >
               Journey
             </motion.span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-6 text-balance">
               Experience & <span className="text-gradient">education</span>
             </h2>
             <p className="text-ink-muted leading-relaxed max-w-xl">
@@ -35,10 +35,10 @@ export default function Experience() {
             </p>
           </motion.div>
 
-          <div className="space-y-10">
+          <div className="space-y-14">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2.5 bg-gradient-to-br from-primary-400/15 to-accent/10 rounded-xl border border-primary-400/15">
+                <div className="p-2.5 bg-gradient-to-br from-primary-400/15 to-primary-500/10 rounded-xl border border-primary-400/15">
                   <Briefcase size={16} className="text-primary-400" weight="bold" />
                 </div>
                 <h3 className="font-display text-lg font-semibold text-ink">
@@ -46,7 +46,7 @@ export default function Experience() {
                 </h3>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {experience.map((exp, index) => (
                   <motion.div
                     key={exp.id}
@@ -78,7 +78,7 @@ export default function Experience() {
 
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2.5 bg-gradient-to-br from-primary-400/15 to-accent/10 rounded-xl border border-primary-400/15">
+                <div className="p-2.5 bg-gradient-to-br from-primary-400/15 to-primary-500/10 rounded-xl border border-primary-400/15">
                   <GraduationCap size={16} className="text-primary-400" weight="bold" />
                 </div>
                 <h3 className="font-display text-lg font-semibold text-ink">
@@ -86,7 +86,7 @@ export default function Experience() {
                 </h3>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {education.map((edu) => (
                   <motion.div
                     key={edu.id}

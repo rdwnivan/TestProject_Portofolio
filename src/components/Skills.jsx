@@ -7,26 +7,26 @@ export default function Skills() {
   return (
     <section id="skills" className="relative">
       <div className="section-rule" />
-      <div className="py-44 md:py-56 bg-surface transition-colors relative overflow-hidden">
+      <div className="pt-12 pb-48 md:pt-16 md:pb-60 bg-surface transition-colors relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-400/3 rounded-full blur-[200px]" />
 
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 relative z-10">
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 mt-12 md:mt-16 relative z-10">
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-16 max-w-2xl"
+            className="mb-20 max-w-2xl"
           >
             <motion.span
               initial={reduce ? false : { opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="inline-block font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-4"
+              className="inline-block font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-6"
             >
               Expertise
             </motion.span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-4">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-6 text-balance">
               Core <span className="text-gradient">capabilities</span>
             </h2>
             <p className="text-ink-muted leading-relaxed">
@@ -34,8 +34,8 @@ export default function Skills() {
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-12 gap-8 mb-16">
-            <div className="lg:col-span-7 space-y-5">
+          <div className="grid lg:grid-cols-12 gap-10 mb-20">
+            <div className="lg:col-span-7 space-y-6">
               {skills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
@@ -78,7 +78,7 @@ export default function Skills() {
                 <h4 className="font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-5">
                   Quick Overview
                 </h4>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-5">
                   {skills.slice(0, 4).map((skill) => (
                     <motion.div
                       key={skill.name}
@@ -99,7 +99,7 @@ export default function Skills() {
           </div>
 
           <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {Object.entries(techStack).map(([category, techs], index) => (
                 <motion.div
                   key={category}
@@ -107,7 +107,9 @@ export default function Skills() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="glass-card p-6 rounded-xl spotlight-border"
+                  className={`glass-card p-6 rounded-xl spotlight-border ${
+                    index === 2 ? "md:col-span-2 lg:col-span-1" : ""
+                  }`}
                 >
                   <h4 className="font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-4">
                     {category}

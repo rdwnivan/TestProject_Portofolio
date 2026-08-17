@@ -13,9 +13,11 @@ const navLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(
-    () => localStorage.getItem("theme") !== "light"
-  );
+  const [isDark, setIsDark] = useState(() => {
+    const stored = localStorage.getItem("theme");
+    if (stored) return stored === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const { scrollY } = useScroll();
@@ -27,6 +29,14 @@ export default function Navbar() {
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark);
   }, [isDark]);
+
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape" && isOpen) setIsOpen(false);
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -61,7 +71,7 @@ export default function Navbar() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/80 dark:bg-surface/70 backdrop-blur-2xl border-b border-black/5 dark:border-white/5 shadow-lg shadow-black/5 dark:shadow-surface/50"
+          ? "bg-surface/80 dark:bg-surface/70 backdrop-blur-2xl border-b border-black/5 dark:border-white/5 shadow-lg shadow-black/5 dark:shadow-surface/50"
           : "bg-transparent"
       }`}
     >
@@ -100,12 +110,13 @@ export default function Navbar() {
                 </motion.a>
               );
             })}
-            <motion.button
+              <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleTheme}
               className="ml-2 p-2 rounded-lg text-ink-muted hover:text-primary-400 hover:bg-primary-400/10 transition-all duration-300"
               aria-label="Toggle theme"
+              aria-pressed={isDark}
             >
               {isDark ? <Sun size={15} weight="bold" /> : <Moon size={15} weight="bold" />}
             </motion.button>
@@ -124,6 +135,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 text-ink-muted hover:text-ink dark:hover:text-white transition-colors duration-300"
               aria-label="Toggle menu"
+              aria-expanded={isOpen}
             >
               {isOpen ? <X size={20} weight="bold" /> : <List size={20} weight="bold" />}
             </button>
@@ -137,7 +149,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white/90 dark:bg-surface/90 backdrop-blur-2xl border-b border-black/5 dark:border-white/5 overflow-hidden"
+            className="md:hidden bg-surface/90 dark:bg-surface/90 backdrop-blur-2xl border-b border-black/5 dark:border-white/5 overflow-hidden"
           >
             <div className="px-6 py-4 space-y-1">
               {navLinks.map((link, i) => {
