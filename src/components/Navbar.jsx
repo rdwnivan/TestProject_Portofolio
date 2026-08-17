@@ -1,133 +1,165 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { motion, AnimatePresence, useMotionValueEvent, useScroll } from "motion/react";
+import { List, X, Sun, Moon } from "@phosphor-icons/react";
 
-// Daftar link navigasi - href harus sesuai dengan section ID di setiap komponen
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
   { name: "Experience", href: "#experience" },
-  { name: "Education", href: "#education" },
   { name: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  // Dark mode diinisialisasi dari localStorage, default true (gelap)
-  const [isDark, setIsDark] = useState(() => localStorage.getItem("theme") !== "light");
+  const [isDark, setIsDark] = useState(
+    () => localStorage.getItem("theme") !== "light"
+  );
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const { scrollY } = useScroll();
 
-  // Efek scroll - navbar jadi transparan/blur saat di atas
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolled(latest > 50);
+  });
 
-  // Efek dark mode - tambah/hapus class "dark" di element <html>
   useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", isDark);
   }, [isDark]);
 
-  // Toggle tema dan simpan pilihan ke localStorage
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+
+    navLinks.forEach(({ href }) => {
+      const el = document.querySelector(href);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const toggleTheme = () => {
-    setIsDark(!isDark);
-    localStorage.setItem("theme", !isDark ? "dark" : "light");
+    const next = !isDark;
+    setIsDark(next);
+    localStorage.setItem("theme", next ? "dark" : "light");
   };
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-lg"
+          ? "bg-white/80 dark:bg-surface/70 backdrop-blur-2xl border-b border-black/5 dark:border-white/5 shadow-lg shadow-black/5 dark:shadow-surface/50"
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20">
+        <div className="flex items-center justify-center relative h-16">
           <motion.a
             href="#home"
             whileHover={{ scale: 1.05 }}
-            className="text-xl font-bold text-primary-600 dark:text-primary-400"
+            className="flex items-center gap-2.5 absolute left-1/2 -translate-x-1/2"
           >
-            Portfolio
+            <div className="w-8 h-8 rounded-lg bg-primary-400/10 border border-primary-400/20 flex items-center justify-center">
+              <span className="font-display text-xs font-bold text-primary-400">
+                RS
+              </span>
+            </div>
+            <span className="font-display text-sm font-semibold text-ink tracking-tight hidden sm:inline">
+              Portfolio
+            </span>
           </motion.a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <motion.a
-                key={link.name}
-                href={link.href}
-                whileHover={{ scale: 1.1 }}
-                className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
-              >
-                {link.name}
-              </motion.a>
-            ))}
+          <div className="hidden md:flex items-center space-x-1 absolute right-0">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.slice(1);
+              return (
+                <motion.a
+                  key={link.name}
+                  href={link.href}
+                  whileHover={{ y: -1 }}
+                  className={`px-3.5 py-1.5 text-[13px] font-medium transition-all duration-300 rounded-lg ${
+                    isActive
+                      ? "text-primary-400 bg-primary-400/10 border border-primary-400/15"
+                      : "text-ink-muted hover:text-ink dark:hover:text-ink hover:bg-black/5 dark:hover:bg-white/5"
+                  }`}
+                >
+                  {link.name}
+                </motion.a>
+              );
+            })}
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+              className="ml-2 p-2 rounded-lg text-ink-muted hover:text-primary-400 hover:bg-primary-400/10 transition-all duration-300"
+              aria-label="Toggle theme"
             >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+              {isDark ? <Sun size={15} weight="bold" /> : <Moon size={15} weight="bold" />}
             </motion.button>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-4">
+          <div className="md:hidden flex items-center space-x-2 absolute right-0">
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+              className="p-2 rounded-lg text-ink-muted hover:text-primary-400 hover:bg-primary-400/10 transition-all duration-300"
+              aria-label="Toggle theme"
             >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+              {isDark ? <Sun size={17} weight="bold" /> : <Moon size={17} weight="bold" />}
             </motion.button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              className="p-2 text-ink-muted hover:text-ink dark:hover:text-white transition-colors duration-300"
+              aria-label="Toggle menu"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={20} weight="bold" /> : <List size={20} weight="bold" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm"
+            className="md:hidden bg-white/90 dark:bg-surface/90 backdrop-blur-2xl border-b border-black/5 dark:border-white/5 overflow-hidden"
           >
-            <div className="px-4 py-4 space-y-4">
-              {navLinks.map((link) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                >
-                  {link.name}
-                </motion.a>
-              ))}
+            <div className="px-6 py-4 space-y-1">
+              {navLinks.map((link, i) => {
+                const isActive = activeSection === link.href.slice(1);
+                return (
+                  <motion.a
+                    key={link.name}
+                    href={link.href}
+                    initial={{ x: -16, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: i * 0.05 }}
+                    onClick={() => setIsOpen(false)}
+                    className={`block px-4 py-3 text-sm font-medium transition-all duration-300 rounded-lg ${
+                      isActive
+                        ? "text-primary-400 bg-primary-400/10 border border-primary-400/15"
+                        : "text-ink-muted hover:text-ink dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5"
+                    }`}
+                  >
+                    {link.name}
+                  </motion.a>
+                );
+              })}
             </div>
           </motion.div>
         )}
