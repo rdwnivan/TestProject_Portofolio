@@ -4,7 +4,7 @@ Personal portfolio website built with React and Tailwind CSS. This project is al
 
 ## Live Preview
 
-👉 [ridwansyarifudin.vercel.app](https://ridwansyarifudin.vercel.app)
+👉 [testproject-alpha-seven.vercel.app](https://testproject-alpha-seven.vercel.app)
 
 ## About This Project
 
