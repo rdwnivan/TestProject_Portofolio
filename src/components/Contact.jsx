@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Envelope, MapPin, PaperPlaneRight, GithubLogo, LinkedinLogo } from "@phosphor-icons/react";
 import { personalInfo } from "../lib/data";
+import SectionHeading from "./Section";
 
 export default function Contact() {
   const reduce = useReducedMotion();
@@ -52,27 +53,27 @@ export default function Contact() {
 
   const contactLinks = [
     {
-      icon: <Envelope size={20} weight="bold" />,
+      icon: <Envelope size={18} weight="bold" />,
       label: "Email",
       value: personalInfo.email,
       href: `mailto:${personalInfo.email}`,
     },
     {
-      icon: <GithubLogo size={20} weight="fill" />,
+      icon: <GithubLogo size={18} weight="fill" />,
       label: "GitHub",
       value: "github.com/rdwnivan",
       href: personalInfo.github,
     },
     {
-      icon: <LinkedinLogo size={20} weight="fill" />,
+      icon: <LinkedinLogo size={18} weight="fill" />,
       label: "LinkedIn",
       value: "linkedin.com/in/ridwansyarifudin",
       href: personalInfo.linkedin,
     },
     {
-      icon: <MapPin size={20} weight="bold" />,
+      icon: <MapPin size={18} weight="bold" />,
       label: "Location",
-      value: personalInfo.location || "Indonesia",
+      value: personalInfo.location,
       href: null,
     },
   ];
@@ -80,88 +81,63 @@ export default function Contact() {
   return (
     <section id="contact" className="relative">
       <div className="section-rule" />
-      <div className="pt-12 pb-48 md:pt-16 md:pb-60 bg-surface-alt transition-colors relative overflow-hidden">
-        <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary-400/5 rounded-full blur-[150px] opacity-50" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-primary-500/5 rounded-full blur-[120px] opacity-50" />
+      <div className="py-16 md:py-24 bg-slate-50">
+        <div className="w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10">
+          <SectionHeading
+            eyebrow="Contact"
+            title="Let's connect"
+            lede="Open to QA roles, freelance testing work, and conversations about quality engineering."
+          />
 
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 mt-12 md:mt-16 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-start">
             <motion.div
-              initial={reduce ? false : { opacity: 0, y: 30 }}
+              initial={reduce ? false : { opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5 }}
+              className="border-t border-slate-200"
             >
-              <motion.span
-                initial={reduce ? false : { opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="inline-block font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-6"
-              >
-                Contact
-              </motion.span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-6 text-balance">
-              Let's <span className="text-gradient">connect</span>
-            </h2>
-              <p className="text-ink-muted leading-relaxed mb-10 max-w-md">
-                I'm always open to discussing new projects, creative ideas, or
-                opportunities to be part of your visions.
-              </p>
-
-              <div className="space-y-4">
-                {contactLinks.map((link, index) => (
-                  <motion.div
-                    key={link.label}
-                    initial={reduce ? false : { opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.08 }}
-                  >
-                    {link.href ? (
-                      <motion.a
-                        href={link.href}
-                        target={link.href.startsWith("mailto") ? undefined : "_blank"}
-                        rel="noopener noreferrer"
-                        whileHover={{ x: 4 }}
-                        className="flex items-center gap-4 p-4 glass-card rounded-xl hover:border-primary-400/20 transition-all duration-300 group spotlight-border"
-                      >
-                        <div className="p-2.5 bg-gradient-to-br from-primary-400/15 to-primary-400/5 rounded-lg border border-primary-400/15 text-primary-400">
-                          {link.icon}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-ink-subtle mb-0.5">
-                            {link.label}
-                          </p>
-                          <p className="text-sm text-ink group-hover:text-primary-400 transition-colors truncate">
-                            {link.value}
-                          </p>
-                        </div>
-                      </motion.a>
-                    ) : (
-                      <div className="flex items-center gap-4 p-4 glass-card rounded-xl">
-                        <div className="p-2.5 bg-gradient-to-br from-primary-400/15 to-primary-400/5 rounded-lg border border-primary-400/15 text-primary-400">
-                          {link.icon}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-ink-subtle mb-0.5">
-                            {link.label}
-                          </p>
-                          <p className="text-sm text-ink">{link.value}</p>
-                        </div>
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
+              {contactLinks.map((link) => (
+                <div key={link.label} className="border-b border-slate-200">
+                  {link.href ? (
+                    <a
+                      href={link.href}
+                      target={link.href.startsWith("mailto") ? undefined : "_blank"}
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 py-4 group min-w-0"
+                    >
+                      <span className="text-cyan-800 shrink-0">{link.icon}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-mono text-[10px] tracking-[0.15em] uppercase text-slate-500 mb-0.5">
+                          {link.label}
+                        </span>
+                        <span className="block text-sm text-slate-900 group-hover:text-cyan-800 transition-colors break-all">
+                          {link.value}
+                        </span>
+                      </span>
+                    </a>
+                  ) : (
+                    <div className="flex items-center gap-4 py-4 min-w-0">
+                      <span className="text-cyan-800 shrink-0">{link.icon}</span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-mono text-[10px] tracking-[0.15em] uppercase text-slate-500 mb-0.5">
+                          {link.label}
+                        </span>
+                        <span className="block text-sm text-slate-900">{link.value}</span>
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ))}
             </motion.div>
 
             <motion.div
-              initial={reduce ? false : { opacity: 0, y: 20 }}
+              initial={reduce ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.15 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ delay: 0.1, duration: 0.5 }}
             >
-              <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+              <form className="space-y-5 bg-white border border-slate-200 rounded-xl p-5 sm:p-6 md:p-8" onSubmit={handleSubmit} noValidate>
                 {[
                   { id: "name", label: "Name", type: "text", placeholder: "Your name" },
                   { id: "email", label: "Email", type: "email", placeholder: "your.email@example.com" },
@@ -169,7 +145,7 @@ export default function Contact() {
                   <div key={field.id}>
                     <label
                       htmlFor={field.id}
-                      className="block font-mono text-[10px] tracking-[0.15em] uppercase text-ink-subtle mb-2"
+                      className="block font-mono text-[10px] tracking-[0.15em] uppercase text-slate-500 mb-2"
                     >
                       {field.label}
                     </label>
@@ -183,20 +159,20 @@ export default function Contact() {
                       }}
                       aria-invalid={!!errors[field.id]}
                       aria-describedby={errors[field.id] ? `${field.id}-error` : undefined}
-                      className={`w-full px-4 py-3.5 glass-card rounded-xl focus:outline-none focus:border-primary-400/50 focus:ring-1 focus:ring-primary-400/20 text-ink text-sm transition-all duration-300 placeholder:text-ink-subtle ${
-                        errors[field.id] ? "border-red-400/50 focus:border-red-400/50 focus:ring-red-400/20" : ""
+                      className={`w-full px-4 py-3 bg-white border rounded-lg focus:outline-none focus:border-cyan-800 text-slate-900 text-sm transition-colors duration-200 placeholder:text-slate-400 ${
+                        errors[field.id] ? "border-red-400" : "border-slate-300"
                       }`}
                       placeholder={field.placeholder}
                     />
                     {errors[field.id] && (
-                      <p id={`${field.id}-error`} className="mt-1.5 text-xs text-red-400">{errors[field.id]}</p>
+                      <p id={`${field.id}-error`} className="mt-1.5 text-xs text-red-500">{errors[field.id]}</p>
                     )}
                   </div>
                 ))}
                 <div>
                   <label
                     htmlFor="message"
-                    className="block font-mono text-[10px] tracking-[0.15em] uppercase text-ink-subtle mb-2"
+                    className="block font-mono text-[10px] tracking-[0.15em] uppercase text-slate-500 mb-2"
                   >
                     Message
                   </label>
@@ -210,24 +186,22 @@ export default function Contact() {
                     }}
                     aria-invalid={!!errors.message}
                     aria-describedby={errors.message ? "message-error" : undefined}
-                    className={`w-full px-4 py-3.5 glass-card rounded-xl focus:outline-none focus:border-primary-400/50 focus:ring-1 focus:ring-primary-400/20 text-ink text-sm transition-all duration-300 resize-none placeholder:text-ink-subtle ${
-                      errors.message ? "border-red-400/50 focus:border-red-400/50 focus:ring-red-400/20" : ""
+                    className={`w-full px-4 py-3 bg-white border rounded-lg focus:outline-none focus:border-cyan-800 text-slate-900 text-sm transition-colors duration-200 resize-none placeholder:text-slate-400 ${
+                      errors.message ? "border-red-400" : "border-slate-300"
                     }`}
                     placeholder="Your message..."
                   />
                   {errors.message && (
-                    <p id="message-error" className="mt-1.5 text-xs text-red-400">{errors.message}</p>
+                    <p id="message-error" className="mt-1.5 text-xs text-red-500">{errors.message}</p>
                   )}
                 </div>
-                <motion.button
+                <button
                   type="submit"
                   disabled={submitted}
-                  whileHover={submitted ? {} : { scale: 1.02, boxShadow: "0 0 30px rgba(6, 182, 212, 0.2)" }}
-                  whileTap={submitted ? {} : { scale: 0.98 }}
-                  className={`w-full py-4 rounded-xl font-semibold text-sm transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-lg ${
+                  className={`w-full py-3.5 rounded-lg font-semibold text-sm transition-colors duration-200 inline-flex items-center justify-center gap-2 ${
                     submitted
-                      ? "bg-emerald-500 text-white shadow-emerald-500/20 cursor-not-allowed"
-                      : "bg-gradient-to-r from-primary-400 to-primary-500 hover:from-primary-300 hover:to-primary-400 text-white shadow-primary-400/20"
+                      ? "bg-emerald-600 text-white cursor-not-allowed"
+                      : "bg-cyan-800 hover:bg-cyan-900 text-white"
                   }`}
                 >
                   {submitted ? (
@@ -238,7 +212,7 @@ export default function Contact() {
                       <PaperPlaneRight size={16} weight="bold" />
                     </>
                   )}
-                </motion.button>
+                </button>
               </form>
             </motion.div>
           </div>

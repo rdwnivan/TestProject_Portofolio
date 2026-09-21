@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
-import { skills, techStack } from "../lib/data";
+import { capabilities, techStack } from "../lib/data";
+import SectionHeading from "./Section";
 
 export default function Skills() {
   const reduce = useReducedMotion();
@@ -7,128 +8,55 @@ export default function Skills() {
   return (
     <section id="skills" className="relative">
       <div className="section-rule" />
-      <div className="pt-12 pb-48 md:pt-16 md:pb-60 bg-surface transition-colors relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-400/3 rounded-full blur-[200px]" />
+      <div className="py-16 md:py-24 bg-white">
+        <div className="w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10">
+          <SectionHeading
+            eyebrow="Expertise"
+            title="What I do"
+            lede="Manual-first QA with automation support — scoped to what I have actually shipped."
+          />
 
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 mt-12 md:mt-16 relative z-10">
           <motion.div
-            initial={reduce ? false : { opacity: 0, y: 30 }}
+            initial={reduce ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-20 max-w-2xl"
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5 }}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-slate-200 border border-slate-200 rounded-xl overflow-hidden mb-12 md:mb-16"
           >
-            <motion.span
-              initial={reduce ? false : { opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="inline-block font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-6"
-            >
-              Expertise
-            </motion.span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-6 text-balance">
-              Core <span className="text-gradient">capabilities</span>
-            </h2>
-            <p className="text-ink-muted leading-relaxed">
-              Hands-on expertise across manual testing, automation frameworks, and QA tooling.
-            </p>
+            {capabilities.map((cap) => (
+              <div key={cap.name} className="bg-white p-6">
+                <h3 className="font-display text-base font-semibold text-slate-900 mb-1.5">
+                  {cap.name}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {cap.context}
+                </p>
+              </div>
+            ))}
           </motion.div>
 
-          <div className="grid lg:grid-cols-12 gap-10 mb-20">
-            <div className="lg:col-span-7 space-y-6">
-              {skills.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={reduce ? false : { opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.06 }}
-                >
-                  <div className="flex justify-between items-baseline mb-2.5">
-                    <span className="text-sm font-medium text-ink">
-                      {skill.name}
-                    </span>
-                    <span className="font-mono text-xs text-primary-400 font-medium">
-                      {skill.level}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-ink/5 rounded-full h-2 relative overflow-hidden">
-                    <motion.div
-                      initial={reduce ? false : { width: 0 }}
-                      whileInView={{ width: `${skill.level}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.2, delay: index * 0.06, ease: "easeOut" }}
-                      className="bg-gradient-to-r from-primary-500 to-primary-400 h-2 rounded-full relative"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="lg:col-span-5">
-              <motion.div
-                initial={reduce ? false : { opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="glass-card p-6 rounded-xl h-full spotlight-border"
-              >
-                <h4 className="font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-5">
-                  Quick Overview
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5 }}
+            className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10"
+          >
+            {Object.entries(techStack).map(([category, techs]) => (
+              <div key={category}>
+                <h4 className="font-mono text-xs tracking-[0.2em] uppercase text-slate-500 mb-4">
+                  {category}
                 </h4>
-                <div className="grid grid-cols-2 gap-5">
-                  {skills.slice(0, 4).map((skill) => (
-                    <motion.div
-                      key={skill.name}
-                      whileHover={{ scale: 1.03, y: -2 }}
-                      className="text-center p-4 bg-surface/50 rounded-xl border border-ink/5 dark:border-white/5 hover:border-primary-400/20 transition-all duration-300"
-                    >
-                      <div className="font-display text-2xl font-bold text-gradient mb-1">
-                        {skill.level}%
-                      </div>
-                      <div className="font-mono text-[10px] text-ink-subtle leading-tight">
-                        {skill.name}
-                      </div>
-                    </motion.div>
+                <ul className="space-y-2">
+                  {techs.map((tech) => (
+                    <li key={tech} className="text-sm text-slate-900 border-b border-slate-100 pb-2">
+                      {tech}
+                    </li>
                   ))}
-                </div>
-              </motion.div>
-            </div>
-          </div>
-
-          <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Object.entries(techStack).map(([category, techs], index) => (
-                <motion.div
-                  key={category}
-                  initial={reduce ? false : { opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className={`glass-card p-6 rounded-xl spotlight-border ${
-                    index === 2 ? "md:col-span-2 lg:col-span-1" : ""
-                  }`}
-                >
-                  <h4 className="font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-4">
-                    {category}
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {techs.map((tech) => (
-                      <motion.span
-                        key={tech}
-                        whileHover={{ scale: 1.05, y: -1 }}
-                        className="px-3 py-1.5 bg-surface/50 text-ink text-sm rounded-lg border border-ink/5 dark:border-white/5 hover:border-primary-400/30 hover:text-primary-400 transition-all duration-300 cursor-default"
-                      >
-                        {tech}
-                      </motion.span>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+                </ul>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>

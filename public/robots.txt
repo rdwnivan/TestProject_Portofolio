@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ridwansyarifudin.vercel.app/sitemap.xml
+Sitemap: https://testproject-alpha-seven.vercel.app/sitemap.xml

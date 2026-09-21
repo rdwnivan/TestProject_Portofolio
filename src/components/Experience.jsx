@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
-import { Briefcase, GraduationCap, ArrowRight } from "@phosphor-icons/react";
 import { experience, education } from "../lib/data";
+import SectionHeading from "./Section";
 
 export default function Experience() {
   const reduce = useReducedMotion();
@@ -8,128 +8,99 @@ export default function Experience() {
   return (
     <section id="experience" className="relative">
       <div className="section-rule" />
-      <div className="pt-12 pb-48 md:pt-16 md:pb-60 bg-surface transition-colors relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-primary-400/5 rounded-full blur-[150px] opacity-40" />
+      <div className="py-16 md:py-24 bg-white">
+        <div className="w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-10">
+          <SectionHeading
+            eyebrow="Journey"
+            title="Experience"
+            lede="Professional history in software quality engineering."
+          />
 
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-20 mt-12 md:mt-16 relative z-10">
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-20"
-          >
-            <motion.span
-              initial={reduce ? false : { opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="inline-block font-mono text-xs tracking-[0.2em] uppercase text-primary-400 mb-6"
+          <div className="space-y-10 md:space-y-12">
+            <motion.div
+              initial={reduce ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5 }}
             >
-              Journey
-            </motion.span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-ink tracking-tight mb-6 text-balance">
-              Experience & <span className="text-gradient">education</span>
-            </h2>
-            <p className="text-ink-muted leading-relaxed max-w-xl">
-              Professional journey in software quality engineering.
-            </p>
-          </motion.div>
-
-          <div className="space-y-14">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2.5 bg-gradient-to-br from-primary-400/15 to-primary-500/10 rounded-xl border border-primary-400/15">
-                  <Briefcase size={16} className="text-primary-400" weight="bold" />
-                </div>
-                <h3 className="font-display text-lg font-semibold text-ink">
-                  Work History
-                </h3>
-              </div>
-
-              <div className="space-y-4">
-                {experience.map((exp, index) => (
-                  <motion.div
+              <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-slate-500 mb-4 md:mb-6">
+                Work History
+              </h3>
+              <div className="border-t border-slate-200">
+                {experience.map((exp) => (
+                  <div
                     key={exp.id}
-                    initial={reduce ? false : { opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ x: 4 }}
-                    className="glass-card p-5 rounded-xl hover:border-primary-400/20 transition-all duration-300 spotlight-border"
+                    className="grid gap-3 md:grid-cols-12 md:gap-8 py-6 md:py-8 border-b border-slate-200"
                   >
-                    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-1">
-                      <h4 className="font-display text-base font-semibold text-ink">
+                    <div className="md:col-span-4">
+                      <h4 className="font-display text-base font-semibold text-slate-900">
                         {exp.role}
                       </h4>
-                      <span className="font-mono text-xs text-primary-400 font-medium">
-                        @ {exp.company}
-                      </span>
+                      <p className="text-sm text-cyan-800 mt-1 leading-relaxed">
+                        {exp.company}
+                        {exp.client ? ` — ${exp.client}` : ""}
+                      </p>
+                      <p className="font-mono text-xs text-slate-500 mt-2">
+                        {exp.period}
+                      </p>
                     </div>
-                    <p className="font-mono text-[11px] text-ink-subtle mb-2 tracking-wide">
-                      {exp.period}
-                    </p>
-                    <p className="text-sm leading-relaxed text-ink-muted">
-                      {exp.description}
-                    </p>
-                  </motion.div>
+                    <ul className="md:col-span-8 space-y-2">
+                      {exp.bullets.map((bullet) => (
+                        <li key={bullet} className="text-sm text-slate-600 leading-relaxed flex gap-3">
+                          <span className="text-slate-300 select-none shrink-0">—</span>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
               </div>
-            </div>
-
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2.5 bg-gradient-to-br from-primary-400/15 to-primary-500/10 rounded-xl border border-primary-400/15">
-                  <GraduationCap size={16} className="text-primary-400" weight="bold" />
-                </div>
-                <h3 className="font-display text-lg font-semibold text-ink">
-                  Education
-                </h3>
-              </div>
-
-              <div className="space-y-4">
-                {education.map((edu) => (
-                  <motion.div
-                    key={edu.id}
-                    initial={reduce ? false : { opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    whileHover={{ x: 4 }}
-                    className="glass-card p-5 rounded-xl hover:border-primary-400/20 transition-all duration-300 spotlight-border"
-                  >
-                    <h4 className="font-display text-base font-semibold text-ink mb-1">
-                      {edu.degree}
-                    </h4>
-                    <p className="text-primary-400 text-sm mb-1">
-                      {edu.school}
-                    </p>
-                    <p className="font-mono text-[11px] text-ink-subtle tracking-wide">
-                      {edu.location} &middot; {edu.period}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+            </motion.div>
 
             <motion.div
-              initial={reduce ? false : { opacity: 0, y: 20 }}
+              initial={reduce ? false : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="glass-card p-6 rounded-xl spotlight-border"
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5 }}
             >
-              <div className="flex items-start gap-4">
-                <div className="p-2 bg-primary-400/10 rounded-lg border border-primary-400/15 shrink-0">
-                  <ArrowRight size={16} className="text-primary-400" weight="bold" />
-                </div>
-                <div>
-                  <p className="font-display text-sm font-semibold text-ink mb-1">
-                    Open to new opportunities
-                  </p>
-                  <p className="text-sm text-ink-muted leading-relaxed">
-                    Looking for roles in manual/automated testing, test architecture, or quality engineering.
-                  </p>
-                </div>
+              <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-slate-500 mb-4 md:mb-6">
+                Education
+              </h3>
+              <div className="border-t border-slate-200">
+                {education.map((edu) => (
+                  <div
+                    key={edu.id}
+                    className="grid gap-2 md:grid-cols-12 md:gap-8 py-6 md:py-8 border-b border-slate-200"
+                  >
+                    <div className="md:col-span-4">
+                      <h4 className="font-display text-base font-semibold text-slate-900">
+                        {edu.degree}
+                      </h4>
+                      <p className="font-mono text-xs text-slate-500 mt-2">
+                        {edu.location} · {edu.period}
+                      </p>
+                    </div>
+                    <p className="md:col-span-8 text-sm text-slate-600 leading-relaxed md:pt-0.5">
+                      {edu.school}
+                    </p>
+                  </div>
+                ))}
               </div>
+            </motion.div>
+
+            <motion.div
+              initial={reduce ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5 }}
+              className="border border-slate-200 rounded-xl p-6"
+            >
+              <p className="font-display text-sm font-semibold text-slate-900 mb-1">
+                Open to new opportunities
+              </p>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Manual and automated testing, test architecture, or quality engineering roles.
+              </p>
             </motion.div>
           </div>
         </div>
